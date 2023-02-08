@@ -11,5 +11,8 @@ namespace Weather.Models
     {
         [JsonProperty("forecastday")]
         public Forecastday[] forecastday { get; set; }
+
+        [JsonProperty("alerts")]
+        public Alerts alerts { get; set; }
     }
 }

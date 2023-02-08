@@ -4,6 +4,7 @@ using Android.Runtime;
 namespace Weather;
 
 [Application]
+
 public class MainApplication : MauiApplication
 {
 	public MainApplication(IntPtr handle, JniHandleOwnership ownership)

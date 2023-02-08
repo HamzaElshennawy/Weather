@@ -11,7 +11,7 @@ namespace Weather.Models
     public class Forecastday
     {
         [JsonProperty("date")]
-        public string date { get; set; }
+        public DateTime date { get; set; }
 
         [JsonProperty("date_epoch")]
         public int date_epoch { get; set; }

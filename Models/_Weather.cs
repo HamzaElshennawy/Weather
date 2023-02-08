@@ -12,19 +12,7 @@ namespace Weather.Models
     public class _Weather : INotifyPropertyChanged
     {
         [JsonProperty("location")]
-        public Location _location;
-        public Location location
-        {
-            get => _location;
-            set
-            {
-                if (_location == value)
-                    return;
-                _location = value;
-                NotifyPropertyChanged(nameof(_location));
-            }
-        }
-        
+        public Location location { get; set; }
 
         [JsonProperty("current")]
         public Current current { get; set; }
