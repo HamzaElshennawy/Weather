@@ -19,7 +19,7 @@ namespace Weather.ViewModels
         
         _Weather weather;
 
-        ObservableCollection<_Weather> _weather;
+        public ObservableCollection<_Weather> _weather;
         public static string APIKey = "2a74710e3a00414c9ad21757233001";
 
 

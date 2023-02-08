@@ -33,7 +33,7 @@
                 </Grid.RowDefinitions>
                 <Label 
                     x:Name="StateLBL"
-                    Text="{Binding weather.location.country}"
+                    Text=""
                     FontSize="60"
                     VerticalOptions="StartAndExpand"
                     HorizontalOptions="CenterAndExpand"
@@ -45,7 +45,7 @@
                     />
                 <Label 
                     x:Name="CityLBL"
-                    Text="{Binding weather.location.name}"
+                    Text=""
                     FontSize="30"
                     VerticalOptions="StartAndExpand"
                     HorizontalOptions="CenterAndExpand"
@@ -57,7 +57,7 @@
                     />
                 <Label 
                     x:Name="TempLBL"
-                    Text="{Binding weather.current.temp_c}"
+                    Text=""
                     FontSize="140"
                     VerticalOptions="StartAndExpand"
                     HorizontalOptions="CenterAndExpand"
@@ -74,7 +74,7 @@
                 HeightRequest="1000"
                 Padding="0"
                 >
-                <CarouselView >
+                <CarouselView ItemsSource="{Binding weather}">
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -86,7 +86,7 @@
                                     <StackLayout>
                                         <StackLayout>
                                             <Image 
-                                                Source="" 
+                                                Source="{Binding current.conditio.icon}"
                                                 Aspect="AspectFill"
                                                 />
                                         </StackLayout>
