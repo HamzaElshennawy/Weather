@@ -49,18 +49,27 @@ namespace Weather.ViewModels
         {
 
             await GetCurrentLocation();
+            string RequestLink = baseURL + "/" + "forecast.json?key=" + APIKey;
+            string _CurrentWeather = $"&q={Latitude},{Longitude}";
 
-            string _CurrentWeather = baseURL + "/" + "forecast.json?key=" + APIKey + $"&q={Latitude},{Longitude}";
-
+            if (LocationRequestFailed)
+            {
+                RequestLink += "&q=auto:ip";
+            }
+            else
+            {
+                RequestLink += _CurrentWeather;
+            }
             HttpClient client = new HttpClient();
             
             try
             {
-                var response = await client.GetAsync(_CurrentWeather);
+                var response = await client.GetAsync(RequestLink);
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     weather = JsonConvert.DeserializeObject<_Weather>(content);
+                    weather.current.condition.icon = weather.current.condition.icon.Replace("//", "https://");
                     OnPropertyChanged(nameof(weather));
                 }
             }
@@ -79,11 +88,11 @@ namespace Weather.ViewModels
         private bool _isCheckingLocation;
         
         
+        bool LocationRequestFailed;
         
         public async Task GetCurrentLocation()
         {
             //ask for the location permission
-            
             try
             {
                 _isCheckingLocation = true;
@@ -119,7 +128,7 @@ namespace Weather.ViewModels
             catch (PermissionException)
             {
                 // Handle permission exception
-                await Application.Current.MainPage.DisplayAlert("Error", "You have not given permission to access your location\nPlease give permission from settings", "OK");
+                LocationRequestFailed = true;
             }
             catch (Exception)
             {
