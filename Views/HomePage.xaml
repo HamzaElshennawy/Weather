@@ -7,40 +7,44 @@
              x:DataType="ViewModels:HomePageViewModel"
              xmlns:local="clr-namespace:Weather;assembly=Weather"
              Title="{Binding weather.location.name}"
+             MaximumHeightRequest="{Binding MaxHeight}"
+             BackgroundColor="#110b3d"
              >
 
     <ContentPage.BindingContext>
         <ViewModels:HomePageViewModel/>
     </ContentPage.BindingContext>
-
-    <ScrollView 
-        VerticalOptions="StartAndExpand" 
-        BackgroundColor="red" 
-        HeightRequest="1000"
+    <FlexLayout BackgroundColor="#110b3d">
+        <ScrollView 
+            VerticalOptions="StartAndExpand" 
+            BackgroundColor="Transparent" 
+            Padding="0"
+            Margin="0"
+            VerticalScrollBarVisibility="Never"
         >
 
-        <StackLayout BackgroundColor="#110b3d" HeightRequest="1000" Orientation="Vertical">
-            <Grid 
+            <StackLayout BackgroundColor="#110b3d" Orientation="Vertical" Padding="0" Margin="0">
+                <Grid 
                 BackgroundColor="Transparent"
                 
                 Padding="0"
                 
                 >
-                <Grid.RowDefinitions >
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                
-                <Label 
+                    <Grid.RowDefinitions >
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label 
                     x:Name="CityLBL"
                     Text="{Binding weather.location.name}"
                     FontSize="27"
@@ -54,7 +58,17 @@
                     SemanticProperties.Description="State Name"
                     Grid.Row="0"
                     />
-                <Label 
+                    <ImageButton
+                        x:Name="RefreshBTN"
+                        HorizontalOptions="End"
+                        Source="refresh.png"
+                        Margin="0,20,20,0"
+                        WidthRequest="30"
+                        HeightRequest="30"
+                        Command="{Binding isRefreshing, Mode=TwoWay}"
+                        
+                        />
+                    <Label 
                     
                     Text="{Binding weather.location.localtime}"
                     FontSize="20"
@@ -71,16 +85,18 @@
                     Grid.Row="1"
                     Grid.RowSpan="5"
                     />
-                <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.RowSpan="2">
-                    <Frame 
+                    
+                    <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.RowSpan="2">
+                        
+                        <Frame 
                         BackgroundColor="Transparent"
                         WidthRequest="160"
                         HeightRequest="160"
                         Margin="10,30,0,0"
                         BorderColor="Transparent"
                         >
-                        <StackLayout Orientation="Vertical">
-                            <Image 
+                            <StackLayout Orientation="Vertical">
+                                <Image 
                             Source="{Binding weather.current.condition.icon}"
                             WidthRequest="100"
                             HeightRequest="100"
@@ -88,7 +104,7 @@
                             VerticalOptions="StartAndExpand"
                             Aspect="AspectFill"
                             />
-                            <Label
+                                <Label
                                 Text="{Binding weather.current.condition.text}"
                                 FontSize="20"
                                 HorizontalOptions="CenterAndExpand"
@@ -97,9 +113,9 @@
                                 FontAttributes="Italic"
                             
                             />
-                        </StackLayout>
-                    </Frame>
-                    <Label 
+                            </StackLayout>
+                        </Frame>
+                        <Label 
                     x:Name="TempLBL"
                     Text="{Binding weather.current.temp_c ,  StringFormat='{0}°'}"
                     FontSize="130"
@@ -114,24 +130,24 @@
                     Grid.Row="3"
                     Grid.RowSpan="5"
                     />
-                </StackLayout>
-                <StackLayout Grid.Row="4" Padding="10" Grid.RowSpan="1" BackgroundColor="Transparent">
-                    <Image 
+                    </StackLayout>
+                    <StackLayout Grid.Row="4" Padding="10" Grid.RowSpan="1" BackgroundColor="Transparent">
+                        <Image 
                         Source="https://cdn.pixabay.com/photo/2020/01/24/21/33/city-4791269_960_720.png"
                         BackgroundColor="Transparent"
                         Margin="0,-10,0,0"
                         />
-                </StackLayout>
-                <Border 
+                    </StackLayout>
+                    <Border 
                     Grid.Row="10"
                     Grid.RowSpan="1"
-                    Margin="0,-35,0,0"
-                    StrokeShape="RoundRectangle 40,40,40,40"
+                    
+                    StrokeShape="RoundRectangle 40,40,0,0"
                     BackgroundColor="White"
                     VerticalOptions="End"
                     >
-                    <StackLayout >
-                        <Label 
+                        <StackLayout >
+                            <Label 
                             Text="Weather now" 
                             TextColor="Black"
                             FontSize="22"
@@ -139,69 +155,88 @@
                             Margin="30,10,0,0"
                             />
 
-                        <Frame  
+                            <Frame  
                             Margin="20,20,0,0"
                             BackgroundColor="White"
-                            WidthRequest="270"
-                            HeightRequest="90"
+                            
                             HorizontalOptions="StartAndExpand"
                             VerticalOptions="StartAndExpand"
                             IsClippedToBounds="True"
                             >
-                            <StackLayout Orientation="Horizontal">
-                                <Image
+                                <StackLayout Orientation="Horizontal">
+                                    <Image
                                     Source="windspeedpx.png"
                                     WidthRequest="50"
                                     HeightRequest="50"
                                     Aspect="AspectFill"
                                     VerticalOptions="CenterAndExpand"
                                     />
-                                <Label 
-                                    Text="{Binding weather.current.wind_kph, StringFormat='Wind Speed: {0} km/h'}"
+                                    <StackLayout>
+                                        <Label 
+                                    
+                                    Text="WindSpeed"
                                     TextColor="Black"
                                     Padding="5"
                                     FontSize="18"
                                     VerticalOptions="CenterAndExpand"
-                                    
                                     />
-                            </StackLayout>
-                        </Frame>
+                                    <Label 
+                                        Text="{Binding weather.current.wind_kph, StringFormat='{0} Km/h'}"
+                                        TextColor="Black"
+                                        Padding="5"
+                                        FontSize="18"
+                                        VerticalOptions="CenterAndExpand"
+                                        />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
 
 
-                        <Frame  
+                            <Frame  
                             Margin="20,10,0,0"
                             BackgroundColor="White"
-                            WidthRequest="270"
-                            HeightRequest="100"
+                            
                             HorizontalOptions="StartAndExpand"
                             VerticalOptions="StartAndExpand"
                         
                         >
-                            <StackLayout Orientation="Horizontal">
-                                
-                                <Image
+                                <StackLayout Orientation="Horizontal">
+
+                                    <Image
                                     Source="humiditypng.png"
                                     WidthRequest="50"
                                     HeightRequest="50"
                                     Aspect="AspectFill"
                                     VerticalOptions="CenterAndExpand"
-                                />
-                                
-                                <Label 
-                                    Text="{Binding weather.current.humidity, StringFormat='Humidity:   {0}%'}"
-                                    TextColor="Black"
-                                    Padding="5"
-                                    FontSize="18"
-                                    VerticalOptions="CenterAndExpand"
-                                    LineBreakMode="CharacterWrap"
-                                />
-                            </StackLayout>
-                        </Frame>
+                                    />
+                                    <StackLayout>
+
+                                        <Label 
+                                        Text="Humidity"
+                                        TextColor="Black"
+                                        Padding="5"
+                                        FontSize="18"
+                                        VerticalOptions="CenterAndExpand"
+                                        LineBreakMode="CharacterWrap"
+                                        />
+                                        <Label 
+                                            Text="{Binding weather.current.humidity,StringFormat='{0} %'}"
+                                            TextColor="Black"
+                                            Padding="5"
+                                            FontSize="18"
+                                            VerticalOptions="CenterAndExpand"
+                                            />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
 
 
-                    </StackLayout>
-                </Border>
-            </Grid>
-        </StackLayout>
-    </ScrollView>
+                        </StackLayout>
+                    </Border>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+    </FlexLayout>
+
+
 </ContentPage>

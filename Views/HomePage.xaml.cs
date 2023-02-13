@@ -27,7 +27,10 @@ public partial class HomePage : ContentPage
     {
 
     }
-   
-    
+
+    private void RefreshBTN_Clicked(object sender, EventArgs e)
+    {
+        
+    }
 }
 

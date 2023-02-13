@@ -53,16 +53,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Resources\Images\windspeedpx.png" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Compile Update="Views\HomePage.xaml.cs">
 	    <DependentUpon>HomePage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="BenchmarkDotNet" Version="0.13.4" />
+	  <PackageReference Include="BenchmarkDotNet.Annotations" Version="0.13.4" />
 	  <PackageReference Include="CommunityToolkit.Maui.Core" Version="4.0.0" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3-beta1" />
