@@ -19,7 +19,9 @@ namespace Weather.Models
 
         [JsonProperty("air_quality")]
         public Air_Quality air_quality { get; set; }
-        
+
+        [JsonProperty("forecast")]
+        public Forecast forecast { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

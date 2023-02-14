@@ -40,10 +40,10 @@ namespace Weather.Models
         [JsonProperty("totalprecip_in")]
         public float totalprecip_in { get; set; }
 
-        [JsonProperty("avgvis_km")]
+        [JsonProperty("avgvis_cm")]
         public float totalsnow_cm { get; set; }
 
-        [JsonProperty("avgvis_miles")]
+        [JsonProperty("avgvis_km")]
         public float avgvis_km { get; set; }
 
         [JsonProperty("avgvis_miles")]

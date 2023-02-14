@@ -14,13 +14,14 @@
     <ContentPage.BindingContext>
         <ViewModels:HomePageViewModel/>
     </ContentPage.BindingContext>
-    <FlexLayout BackgroundColor="#110b3d">
+    <FlexLayout BackgroundColor="#110b3d" >
         <ScrollView 
             VerticalOptions="StartAndExpand" 
             BackgroundColor="Transparent" 
             Padding="0"
             Margin="0"
             VerticalScrollBarVisibility="Never"
+            HeightRequest="{Binding screenHeight}"
         >
 
             <StackLayout BackgroundColor="#110b3d" Orientation="Vertical" Padding="0" Margin="0">
@@ -67,6 +68,7 @@
                         HeightRequest="30"
                         Command="{Binding isRefreshing, Mode=TwoWay}"
                         
+                        Clicked="RefreshBTN_Clicked"
                         />
                     <Label 
                     
@@ -138,10 +140,54 @@
                         Margin="0,-10,0,0"
                         />
                     </StackLayout>
+                    <StackLayout BackgroundColor="Red" HeightRequest="60" Grid.Row="5" Spacing="10"> 
+                        <CollectionView 
+                            
+                            x:Name="ForeCastListView"
+                            ItemsSource="{Binding foreCasts}"
+                            SelectionMode="Single"
+                            ItemsLayout="HorizontalList"
+                                >
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    
+                                        <Frame 
+                                            WidthRequest="200"
+                                            HeightRequest="60"
+                                            HorizontalOptions="StartAndExpand"
+                                            HasShadow="True"
+                                            >
+                                            <StackLayout BackgroundColor="White" 
+                                                    HorizontalOptions="CenterAndExpand"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    WidthRequest="200"
+                                                    HeightRequest="40"
+                                                    >
+                                                <Label 
+                                                    Text="{Binding day.maxtemp_c}"             
+                                                    TextColor="Red" 
+                                                    BackgroundColor="Blue"
+                                                    FontSize="20"
+                                                    HorizontalTextAlignment="Center"
+                                                    VerticalTextAlignment="Center"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    HorizontalOptions="CenterAndExpand"
+                                                    />
+
+
+
+                                            </StackLayout>
+                                        </Frame>
+                                    
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
                     <Border 
                     Grid.Row="10"
                     Grid.RowSpan="1"
-                    
+                    HeightRequest="{Binding MaxHeight}"
                     StrokeShape="RoundRectangle 40,40,0,0"
                     BackgroundColor="White"
                     VerticalOptions="End"
@@ -154,64 +200,62 @@
                             FontAttributes="Bold"
                             Margin="30,10,0,0"
                             />
+                            <StackLayout Orientation="Horizontal" BackgroundColor="Red" HeightRequest="110">
 
-                            <Frame  
-                            Margin="20,20,0,0"
-                            BackgroundColor="White"
-                            
-                            HorizontalOptions="StartAndExpand"
-                            VerticalOptions="StartAndExpand"
-                            IsClippedToBounds="True"
-                            >
-                                <StackLayout Orientation="Horizontal">
-                                    <Image
-                                    Source="windspeedpx.png"
-                                    WidthRequest="50"
-                                    HeightRequest="50"
-                                    Aspect="AspectFill"
-                                    VerticalOptions="CenterAndExpand"
-                                    />
-                                    <StackLayout>
-                                        <Label 
+                                <Frame  
+                                Margin="0,0,0,0"
+                                BackgroundColor="White"
+                                WidthRequest="200"
+                                HorizontalOptions="CenterAndExpand"
+                                VerticalOptions="Center"
+                                IsClippedToBounds="True"
+                                >
+                                    <StackLayout Orientation="Horizontal">
+                                        <Image
+                                        Source="windspeedpx.png"
+                                        WidthRequest="50"
+                                        HeightRequest="50"
+                                        Aspect="AspectFill"
+                                        VerticalOptions="CenterAndExpand"
+                                        />
+                                        <StackLayout>
+                                            <Label 
                                     
-                                    Text="WindSpeed"
-                                    TextColor="Black"
-                                    Padding="5"
-                                    FontSize="18"
-                                    VerticalOptions="CenterAndExpand"
-                                    />
-                                    <Label 
-                                        Text="{Binding weather.current.wind_kph, StringFormat='{0} Km/h'}"
+                                        Text="WindSpeed"
                                         TextColor="Black"
                                         Padding="5"
                                         FontSize="18"
                                         VerticalOptions="CenterAndExpand"
                                         />
+                                            <Label 
+                                            Text="{Binding weather.current.wind_kph, StringFormat='{0} Km/h'}"
+                                            TextColor="Black"
+                                            Padding="5"
+                                            FontSize="18"
+                                            VerticalOptions="CenterAndExpand"
+                                            />
+                                        </StackLayout>
                                     </StackLayout>
-                                </StackLayout>
-                            </Frame>
+                                </Frame>
+                                <Frame  
+                                    Margin="0,0,0,0"
+                                    BackgroundColor="White"
+                                    WidthRequest="200"
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="CenterAndExpand"
+                                    >
+                                    <StackLayout Orientation="Horizontal">
 
-
-                            <Frame  
-                            Margin="20,10,0,0"
-                            BackgroundColor="White"
-                            
-                            HorizontalOptions="StartAndExpand"
-                            VerticalOptions="StartAndExpand"
-                        
-                        >
-                                <StackLayout Orientation="Horizontal">
-
-                                    <Image
+                                        <Image
                                     Source="humiditypng.png"
                                     WidthRequest="50"
                                     HeightRequest="50"
                                     Aspect="AspectFill"
                                     VerticalOptions="CenterAndExpand"
                                     />
-                                    <StackLayout>
+                                        <StackLayout>
 
-                                        <Label 
+                                            <Label 
                                         Text="Humidity"
                                         TextColor="Black"
                                         Padding="5"
@@ -219,16 +263,94 @@
                                         VerticalOptions="CenterAndExpand"
                                         LineBreakMode="CharacterWrap"
                                         />
-                                        <Label 
+                                            <Label 
                                             Text="{Binding weather.current.humidity,StringFormat='{0} %'}"
                                             TextColor="Black"
                                             Padding="5"
                                             FontSize="18"
                                             VerticalOptions="CenterAndExpand"
                                             />
+                                        </StackLayout>
                                     </StackLayout>
-                                </StackLayout>
-                            </Frame>
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal" BackgroundColor="Blue" HeightRequest="110">
+
+                                <Frame  
+                                Margin="0,0,0,0"
+                                BackgroundColor="White"
+                                WidthRequest="200"
+                                HorizontalOptions="CenterAndExpand"
+                                VerticalOptions="Center"
+                                IsClippedToBounds="True"
+                                >
+                                    <StackLayout Orientation="Horizontal">
+                                        <Image
+                                        Source="windspeedpx.png"
+                                        WidthRequest="50"
+                                        HeightRequest="50"
+                                        Aspect="AspectFill"
+                                        VerticalOptions="CenterAndExpand"
+                                        />
+                                        <StackLayout>
+                                            <Label 
+                                    
+                                        Text="Feels like"
+                                        TextColor="Black"
+                                        Padding="5"
+                                        FontSize="18"
+                                        VerticalOptions="CenterAndExpand"
+                                        />
+                                            <Label 
+                                            Text="{Binding weather.current.feelslike_c, StringFormat='{0}°C'}"
+                                            TextColor="Black"
+                                            Padding="5"
+                                            FontSize="18"
+                                            VerticalOptions="CenterAndExpand"
+                                            />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                                <Frame  
+                                    Margin="0,0,0,0"
+                                    BackgroundColor="White"
+                                    WidthRequest="200"
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="CenterAndExpand"
+                                    >
+                                    <StackLayout Orientation="Horizontal">
+
+                                        <Image
+                                    Source="humiditypng.png"
+                                    WidthRequest="50"
+                                    HeightRequest="50"
+                                    Aspect="AspectFill"
+                                    VerticalOptions="CenterAndExpand"
+                                    />
+                                        <StackLayout>
+
+                                            <Label 
+                                                Text="Wind"
+                                                TextColor="Black"
+                                                Padding="5"
+                                                FontSize="18"
+                                                VerticalOptions="CenterAndExpand"
+                                                LineBreakMode="CharacterWrap"
+                                                HorizontalOptions="CenterAndExpand"
+                                                HorizontalTextAlignment="Center"
+                                                />
+                                            <Label 
+                                            Text="{Binding weather.current.wind_dir,StringFormat='{0}'}"
+                                            TextColor="Black"
+                                            Padding="5"
+                                            FontSize="18"
+                                            VerticalOptions="CenterAndExpand"
+                                            />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            
 
 
                         </StackLayout>

@@ -68,4 +68,6 @@
 	  <PackageReference Include="System.ObjectModel" Version="4.3.0" />
 	</ItemGroup>
 
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionWeatherHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
 </Project>

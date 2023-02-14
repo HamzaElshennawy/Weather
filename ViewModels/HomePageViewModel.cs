@@ -31,14 +31,15 @@ namespace Weather.ViewModels
 
         
 
-        public ObservableCollection<_Weather> _weather;
+        public ObservableCollection<Forecastday> foreCasts { set; get; }
+
         public static string APIKey = "2a74710e3a00414c9ad21757233001";
 
 
         public static string baseURL = "https://api.weatherapi.com/v1";
 
 
-        string CurrentWeather = baseURL + "/" + "current.json?key=" + APIKey + "&q=auto:ip";
+        string CurrentWeather = baseURL + "/" + "forecast.json?key=" + APIKey + "&days=5" + "&q=auto:ip";
 
 
         public double screenHeight { get; set; }
@@ -58,7 +59,7 @@ namespace Weather.ViewModels
 
 
             isRefreshing = new AsyncCommand(Refresh);
-            _weather = new ObservableCollection<_Weather>();
+            foreCasts = new ObservableCollection<Forecastday>();
             weather = new _Weather();
             Task.WhenAll(GetWeather());
 
@@ -84,21 +85,22 @@ namespace Weather.ViewModels
             RequestLink += "&q=auto:ip";
             try
             {
-                var response = await client.GetAsync(RequestLink);
+                var response = await client.GetAsync(CurrentWeather);
                 var content = await response.Content.ReadAsStringAsync();
                 weather = JsonConvert.DeserializeObject<_Weather>(content);
                 weather.current.condition.icon = weather.current.condition.icon.Replace("//", "https://");
+                foreCasts.Clear();
+                for(int i = 0;i< weather.forecast.forecastday.Length;i++)
+                {
+                    foreCasts.Add(weather.forecast.forecastday[i]);
+                    OnPropertyChanged(nameof(foreCasts));
+                }
                 OnPropertyChanged(nameof(weather));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-#if ANDROID || IOS || MACCATALYST
-                await App.Current.MainPage.DisplayAlert("Error", "No internet connection", "OK");
-#endif
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
 
-#if WINDOWS
-               
-#endif
             }
 
         }
@@ -179,7 +181,7 @@ namespace Weather.ViewModels
         async Task Refresh()
         {
             IsNotBusy = false;
-            Task.Delay(2000);
+            await GetWeather();
             IsNotBusy = true;
         }
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Weather.Models
 {
-    public class Forecase
+    public class Forecast
     {
         [JsonProperty("forecastday")]
         public Forecastday[] forecastday { get; set; }
